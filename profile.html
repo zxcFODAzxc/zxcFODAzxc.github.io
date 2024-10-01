@@ -4,11 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #000000, #aaaaaa);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+            overflow: hidden;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            background: transparent;
+            pointer-events: none;
+            z-index: 1002;
+        }
+
+        .cross {
+            position: center;
+            width: 20px;
+            height: 20px;
+        }
+
+        .cross::before,
+        .cross::after {
+            content: '';
+            position: absolute;
+            background-color: gray;
+        }
+
+        .cross::before {
+            width: 2px;
+            height: 20px;
+            left: 9px;
+        }
+
+        .cross::after {
+            height: 2px;
+            width: 20px;
+            top: 9px;
+        }
+
+        .modal-content {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 20%;
+            height: 40%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(5px);
+            cursor: none;
+            color: white;
+        }
+
+        .modal-content input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.5);
+            outline: none;
+            cursor: none;
+        }
+
+        .modal-content input:focus {
+            border-color: #5e5d5d;
+            box-shadow: 0 0 10px rgba(160, 160, 160, 0.5);
+        }
+
+        .modal-content input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .modal-content input:focus::placeholder {
+            color: transparent;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #575757;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: none;
+            margin: 5px 0;
+        }
+
+        .modal-content button:hover {
+            background-color: #6d6d6d;
+            box-shadow: 0 0 10px rgba(143, 143, 143, 0.5);
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Ваш профиль</h1>
-    <button onclick="logout()">Выйти</button>
-    <p id="username-display"></p>
+    <div class="custom-cursor cross"></div>
+
+    <div class="modal-content">
+        <h1>Ваш профиль</h1>
+        Username: <p id="username-display"></p>
+        <button id="download-button" onclick="downloadFile()">Скачать файл</button>
+        <button onclick="logout()">Выйти</button>
+    </div>
 
     <script>
         function checkSession() {
@@ -19,19 +133,78 @@
             }, {});
 
             if (!cookies.session) {
-                window.location.href = 'login.html';
+                //window.location.href = 'login.html';
             } else {
                 const [username] = atob(cookies.session).split(':');
                 document.getElementById('username-display').innerText = `Добро пожаловать, ${username}`;
             }
         }
 
+        async function downloadFile() {
+            const cookies = document.cookie.split('; ').reduce((prev, current) => {
+                const [name, ...rest] = current.split('=');
+                prev[name] = rest.join('=');
+                return prev;
+            }, {});
+
+            if (!cookies.session) {
+                alert("Сессия недействительна. Пожалуйста, войдите снова.");
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const fileType = 'application/pdf';
+            try {
+                const response = await fetch('TOS.bin', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': fileType,
+                        'Authorization': `Bearer ${cookies.session}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Не удалось загрузить файл');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'loader.exe';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Ошибка загрузки файла:', error);
+            }
+        }
+
         function logout() {
-            document.cookie = 'session=; max-age=0'; // удалить куки
+            document.cookie = 'session=; max-age=0';
             window.location.href = 'login.html';
         }
 
         checkSession();
+
+        const cursor = document.querySelector('.custom-cursor');
+    
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = `${e.pageX}px`;
+            cursor.style.top = `${e.pageY}px`;
+        });
+
+        window.onload = function() {
+            const overlay = document.getElementById('overlay');
+            setTimeout(() => {
+                overlay.style.opacity = "0";
+                document.querySelector('h1').style.opacity = "0";
+            }, 2000);
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 3000);
+        }
     </script>
 </body>
 </html>
