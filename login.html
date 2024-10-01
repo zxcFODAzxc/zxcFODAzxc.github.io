@@ -24,7 +24,7 @@
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const key = 'xfos'; // Ваш ключ
+            const key = 'xfos';
 
             fetch('users.json')
                 .then(response => response.text())
@@ -34,12 +34,16 @@
 
                     const user = data.users.find(u => u.username === username && u.password === password);
                     if (user) {
-                        const token = btoa(username + ':' + new Date().getTime()); // простой токен
-                        document.cookie = `session=${token}; max-age=86400`; // действителен 1 день
+                        const token = btoa(username + ':' + new Date().getTime()); // Простой токен
+                        document.cookie = `session=${token}; max-age=86400`; // Действителен 1 день
                         window.location.href = 'profile.html';
                     } else {
                         document.getElementById('error').innerText = 'Неверный логин или пароль.';
                     }
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('error').innerText = 'Ошибка при загрузке данных.';
                 });
         }
     </script>
