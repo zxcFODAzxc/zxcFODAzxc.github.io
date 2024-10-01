@@ -13,43 +13,32 @@
     <p id="error" style="color:red;"></p>
 
     <script>
-        function xorEncryptDecrypt(input, key) {
-            let output = '';
-            for (let i = 0; i < input.length; i++) {
-                output += String.fromCharCode(input.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-            }
-            return output;
+        const KEY = 57;
+
+        function xorEncryptDecrypt(data, key) {
+            return data.split('').map((c) => String.fromCharCode(c.charCodeAt(0) ^ key)).join('');
         }
 
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const key = 'xfos'; // Ваш ключ
 
-            fetch('users.json')
+            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
                 .then(response => response.text())
                 .then(encryptedData => {
-                    const decryptedData = xorEncryptDecrypt(encryptedData, key);
-                    try {
-                        const data = JSON.parse(decryptedData);
-                        const user = data.users.find(u => u.username === username && u.password === password);
-                        if (user) {
-                            const token = btoa(username + ':' + new Date().getTime());
-                            document.cookie = `session=${token}; max-age=86400`;
-                            window.location.href = 'profile.html';
-                        } else {
-                            document.getElementById('error').innerText = 'Неверный логин или пароль.';
-                        }
-                    } catch (error) {
-                        console.error('Ошибка парсинга JSON:', error);
-                        document.getElementById('error').innerText = 'Ошибка загрузки пользователей.';
+                    const decryptedData = xorEncryptDecrypt(encryptedData, KEY);
+                    const data = JSON.parse(decryptedData);
+                
+                    const user = data.users.find(u => u.username === username && u.password === password);
+                    if (user) {
+                        const token = btoa(username + ':' + new Date().getTime());
+                        document.cookie = `session=${token}; max-age=86400`; 
+                        window.location.href = 'profile.html';
+                    } else {
+                        document.getElementById('error').innerText = 'Неверный логин или пароль.';
                     }
-                })
-                .catch(err => {
-                    console.error('Ошибка при загрузке файла:', err);
-                    document.getElementById('error').innerText = 'Ошибка при загрузке данных.';
                 });
         }
-    </script>
+</script>
 </body>
 </html>
