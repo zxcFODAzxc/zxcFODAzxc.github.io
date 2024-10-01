@@ -189,7 +189,7 @@
 
             if (!cookies.session) {
                 alert("Сессия недействительна. Пожалуйста, войдите снова.");
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
                 return;
             }
 
@@ -238,7 +238,7 @@
 
         function logout() {
             document.cookie = 'session=; max-age=0';
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
 
         function checkSession() {
@@ -249,7 +249,7 @@
             }, {});
 
             if (!cookies.session) {
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             } else {
                 const [username] = atob(cookies.session).split(':');
                 document.getElementById('username-display').innerText = `Добро пожаловать, ${username}`;
