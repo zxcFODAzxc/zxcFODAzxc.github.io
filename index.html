@@ -272,7 +272,8 @@
         <a href="#" onclick="showContent('products')">Продукты</a>
         <a href="#" onclick="showContent('about')">О нас</a>
         <a href="#" onclick="showContent('contact')">Контакты</a>
-        <button class="login-button" id="loginBtn">Войти</button>
+        <button class="login-button" id="loginBtn" style="display: none;">Войти</button>
+        <span id="usernameDisplay" class="username" style="display: none;" onclick="redirectToProfile()"></span>
     </div>
 
     <div id="home" class="content" style="display: block;">
@@ -333,7 +334,6 @@
         function showContent(section) {
             const contents = document.querySelectorAll('.content');
             contents.forEach(content => content.style.display = 'none');
-
             document.getElementById(section).style.display = 'block';
         }
 
@@ -364,12 +364,12 @@
                 .then(encryptedData => {
                     const decryptedData = gjkagjkaslgsg(encryptedData, 57);
                     const data = JSON.parse(decryptedData);
-
                     const user = data.users.find(u => u.username === username && u.password === password);
                     if (user) {
                         const token = btoa(username + ':' + new Date().getTime());
                         document.cookie = `session=${token}; max-age=86400`;
-                        window.location.href = 'profile.html';
+                        updateLoginDisplay(username);
+                        modal.style.display = "none";
                     } else {
                         document.getElementById('error').innerText = 'Неверный логин или пароль.';
                     }
@@ -378,6 +378,41 @@
                     console.error('Error:', error);
                     document.getElementById('error').innerText = 'Произошла ошибка. Пожалуйста, попробуйте позже.';
                 });
+        }
+
+        function updateLoginDisplay(username) {
+            loginBtn.style.display = 'none';
+            document.getElementById('usernameDisplay').innerText = username;
+            document.getElementById('usernameDisplay').style.display = 'block';
+        }
+
+        function redirectToProfile() {
+            window.location.href = 'profile.html';
+        }
+
+        function checkSession() {
+            const cookies = document.cookie.split('; ').reduce((prev, current) => {
+                const [name, ...rest] = current.split('=');
+                prev[name] = rest.join('=');
+                return prev;
+            }, {});
+
+            if (cookies.session) {
+                const [username] = atob(cookies.session).split(':');
+                updateLoginDisplay(username);
+            }
+        }
+
+        window.onload = function() {
+            checkSession();
+            const overlay = document.getElementById('overlay');
+            setTimeout(() => {
+                overlay.style.opacity = "0";
+                document.querySelector('h1').style.opacity = "0";
+            }, 2000);
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 3000);
         }
 
         function gjkagjkaslgsg(gjaskgjkalsgj, gasjgkasjgk) {
