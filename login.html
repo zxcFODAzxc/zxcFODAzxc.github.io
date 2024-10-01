@@ -21,16 +21,16 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
-                .then(response => response.text()) // Получаем текстовые данные
+            fetch('users.json')
+                .then(response => response.text())
                 .then(encryptedData => {
-                    const decryptedData = xorDecrypt(encryptedData, 57); // Дешифруем данные
-                    const data = JSON.parse(decryptedData); // Парсим JSON
+                    const decryptedData = xorDecrypt(encryptedData, 57);
+                    const data = JSON.parse(decryptedData);
 
                     const user = data.users.find(u => u.username === username && u.password === password);
                     if (user) {
                         const token = btoa(username + ':' + new Date().getTime());
-                        document.cookie = `session=${token}; max-age=86400`; // действителен 1 день
+                        document.cookie = `session=${token}; max-age=86400`;
                         window.location.href = 'profile.html';
                     } else {
                         document.getElementById('error').innerText = 'Неверный логин или пароль.';
