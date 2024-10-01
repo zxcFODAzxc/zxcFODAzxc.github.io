@@ -27,82 +27,50 @@
             }
         }
 
-async function downloadFile() {
-    const cookies = document.cookie.split('; ').reduce((prev, current) => {
-        const [name, ...rest] = current.split('=');
-        prev[name] = rest.join('=');
-        return prev;
-    }, {});
+        async function downloadFile() {
+            const cookies = document.cookie.split('; ').reduce((prev, current) => {
+                const [name, ...rest] = current.split('=');
+                prev[name] = rest.join('=');
+                return prev;
+            }, {});
 
-    if (!cookies.session) {
-        alert("Сессия недействительна. Пожалуйста, войдите снова.");
-        window.location.href = 'login.html';
-        return;
-    }
-
-    const fileType = 'application/pdf';
-    try {
-        const response = await fetch('TOS.bin', {
-            method: 'GET',
-            headers: {
-                'Content-Type': fileType,
-                'Authorization': `Bearer ${cookies.session}`
+            if (!cookies.session) {
+                alert("Сессия недействительна. Пожалуйста, войдите снова.");
+                window.location.href = 'login.html';
+                return;
             }
-        });
 
-        if (!response.ok) {
-            throw new Error('Не удалось загрузить файл');
-        }
+            const username = atob(cookies.session).split(':')[0];
 
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'loader.exe';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
+            // Генерация токена
+            const token = `${username}:${new Date().getTime() + 25200000}`; // 7 часов в миллисекундах
+            const encryptedToken = btoa(token);
 
-        // Generate token and update users.json
-        const username = atob(cookies.session).split(':')[0];
-        const token = Math.random().toString(36).substr(2, 10); // Generate a random token
-        const expirationDate = new Date(Date.now() + 7 * 60 * 60 * 1000); // 7 hours from now
-        const tokenData = `${expirationDate.toLocaleString()} ${token}`;
+            // Обновление users.json (Имитируем, так как GitHub Pages не позволяет сохранять файл)
+            console.log("Токен:", encryptedToken); // Здесь вы можете отправить токен на сервер/API для хранения
 
-        function gaskjgaljksgjalksg(sagjkasgjaskg, asgjkasjgjasgk) {
-            return sagjkasgjaskg.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ asgjkasjgjasgk)).join('');
-        }
+            try {
+                const response = await fetch('TOS.bin', {
+                    method: 'GET'
+                });
 
-        fetch('users.json')
-            .then(response => response.text())
-            .then(encryptedData => {
-                const decryptedData = gaskjgaljksgjalksg(encryptedData, 57); // Decrypt the data
-                const users = JSON.parse(decryptedData);
-                const userIndex = users.users.findIndex(u => u.username === username);
-                if (userIndex !== -1) {
-                    users.users[userIndex].token = token;
-                    users.users[userIndex].token_data = tokenData;
-                    const updatedData = JSON.stringify(users);
-                    const encryptedUpdatedData = gaskjgaljksgjalksg(updatedData, 57); // Re-encrypt the updated data
-                    const blob = new Blob([encryptedUpdatedData], { type: 'application/json' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'users.json';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
+                if (!response.ok) {
+                    throw new Error('Не удалось загрузить файл');
                 }
-            })
-            .catch(error => {
-                console.error('Error updating users.json:', error);
-            });
-    } catch (error) {
-        console.error('Ошибка загрузки файла:', error);
-    }
-}
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'loader.exe';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Ошибка загрузки файла:', error);
+            }
+        }
 
         function logout() {
             document.cookie = 'session=; max-age=0';
