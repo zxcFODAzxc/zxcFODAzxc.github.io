@@ -272,7 +272,7 @@
         <a href="#" onclick="showContent('products')">Продукты</a>
         <a href="#" onclick="showContent('about')">О нас</a>
         <a href="#" onclick="showContent('contact')">Контакты</a>
-        <div id="userLoginArea"></div>
+        <button class="login-button" id="loginBtn">Войти</button>
     </div>
 
     <div id="home" class="content" style="display: block;">
@@ -333,64 +333,51 @@
         function showContent(section) {
             const contents = document.querySelectorAll('.content');
             contents.forEach(content => content.style.display = 'none');
+
             document.getElementById(section).style.display = 'block';
         }
 
         const modal = document.getElementById('loginModal');
         const loginBtn = document.getElementById('loginBtn');
         const closeModal = document.getElementById('closeModal');
+        
+        loginBtn.onclick = function() {
+            modal.style.display = "block";
+        }
 
-        window.onload = function () {
-            const cookies = document.cookie.split('; ').reduce((prev, current) => {
-                const [name, ...rest] = current.split('=');
-                prev[name] = rest.join('=');
-                return prev;
-            }, {});
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
 
-            if (cookies.session) {
-                const [username] = atob(cookies.session).split(':');
-                document.getElementById('userLoginArea').innerHTML = `<a href="/profile" style="color: white;">${username}</a>`;
-            } else {
-                loginBtn.style.display = "block";
-                loginBtn.onclick = function() {
-                    modal.style.display = "block";
-                }
-            }
-
-            closeModal.onclick = function () {
+        window.onclick = function(event) {
+            if (event.target === modal) {
                 modal.style.display = "none";
             }
+        }
 
-            window.onclick = function (event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            }
+        document.getElementById('submitLogin').onclick = function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-            document.getElementById('submitLogin').onclick = function () {
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
+            fetch('users.json')
+                .then(response => response.text())
+                .then(encryptedData => {
+                    const decryptedData = gjkagjkaslgsg(encryptedData, 57);
+                    const data = JSON.parse(decryptedData);
 
-                fetch('users.json')
-                    .then(response => response.text())
-                    .then(encryptedData => {
-                        const decryptedData = gjkagjkaslgsg(encryptedData, 57);
-                        const data = JSON.parse(decryptedData);
-
-                        const user = data.users.find(u => u.username === username && u.password === password);
-                        if (user) {
-                            const token = btoa(username + ':' + new Date().getTime());
-                            document.cookie = `session=${token}; max-age=86400`;
-                            window.location.href = 'profile.html';
-                        } else {
-                            document.getElementById('error').innerText = 'Неверный логин или пароль.';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        document.getElementById('error').innerText = 'Произошла ошибка. Пожалуйста, попробуйте позже.';
-                    });
-            }
+                    const user = data.users.find(u => u.username === username && u.password === password);
+                    if (user) {
+                        const token = btoa(username + ':' + new Date().getTime());
+                        document.cookie = `session=${token}; max-age=86400`;
+                        window.location.href = 'profile.html';
+                    } else {
+                        document.getElementById('error').innerText = 'Неверный логин или пароль.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('error').innerText = 'Произошла ошибка. Пожалуйста, попробуйте позже.';
+                });
         }
 
         function gjkagjkaslgsg(gjaskgjkalsgj, gasjgkasjgk) {
@@ -405,6 +392,20 @@
         });
 
         window.onload = function() {
+            const cookies = document.cookie.split('; ').reduce((prev, current) => {
+                const [name, ...rest] = current.split('=');
+                prev[name] = rest.join('=');
+                return prev;
+            }, {});
+
+            if (cookies.session) {
+                const [username] = atob(cookies.session).split(':');
+                loginBtn.innerText = username;
+                loginBtn.onclick = function() {
+                    window.location.href = 'profile.html';
+                }  
+            }
+
             const overlay = document.getElementById('overlay');
             setTimeout(() => {
                 overlay.style.opacity = "0";
