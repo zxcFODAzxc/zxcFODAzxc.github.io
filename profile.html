@@ -27,46 +27,55 @@
             }
         }
 
-        async function downloadFile() {
-            const cookies = document.cookie.split('; ').reduce((prev, current) => {
-                const [name, ...rest] = current.split('=');
-                prev[name] = rest.join('=');
-                return prev;
-            }, {});
+async function downloadFile() {
+    const cookies = document.cookie.split('; ').reduce((prev, current) => {
+        const [name, ...rest] = current.split('=');
+        prev[name] = rest.join('=');
+        return prev;
+    }, {});
 
-            if (!cookies.session) {
-                alert("Сессия недействительна. Пожалуйста, войдите снова.");
-                window.location.href = 'login.html';
-                return;
+    if (!cookies.session) {
+        alert("Сессия недействительна. Пожалуйста, войдите снова.");
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const fileType = 'application/pdf';
+    const [username] = atob(cookies.session).split(':');
+    const token = btoa(username + ':' + Date.now());
+    const tokenExpirationDate = new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString(); // 7 часов
+
+    // Здесь вы можете делать что-то с токеном и его датой, например, сохранять в клиентском хранилище
+    localStorage.setItem('token', token);
+    localStorage.setItem('token_data', tokenExpirationDate);
+
+    // Скачивание файла
+    try {
+        const response = await fetch('TOS.bin', {
+            method: 'GET',
+            headers: {
+                'Content-Type': fileType,
+                'Authorization': `Bearer ${cookies.session}`
             }
+        });
 
-            const fileType = 'application/pdf';
-            try {
-                const response = await fetch('TOS.bin', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': fileType,
-                        'Authorization': `Bearer ${cookies.session}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Не удалось загрузить файл');
-                }
-
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'loader.exe';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(url);
-            } catch (error) {
-                console.error('Ошибка загрузки файла:', error);
-            }
+        if (!response.ok) {
+            throw new Error('Не удалось загрузить файл');
         }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'loader.exe';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Ошибка загрузки файла:', error);
+    }
+}
 
         function logout() {
             document.cookie = 'session=; max-age=0';
