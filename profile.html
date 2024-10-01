@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+</head>
+<body>
+    <h1>Ваш профиль</h1>
+    <button onclick="logout()">Выйти</button>
+    <p id="username-display"></p>
+
+    <script>
+        function checkSession() {
+            const cookies = document.cookie.split('; ').reduce((prev, current) => {
+                const [name, ...rest] = current.split('=');
+                prev[name] = rest.join('=');
+                return prev;
+            }, {});
+
+            if (!cookies.session) {
+                window.location.href = 'login.html';
+            } else {
+                const [username] = atob(cookies.session).split(':');
+                document.getElementById('username-display').innerText = `Добро пожаловать, ${username}`;
+            }
+        }
+
+        function logout() {
+            document.cookie = 'session=; max-age=0'; // удалить куки
+            window.location.href = 'login.html';
+        }
+
+        checkSession();
+    </script>
+</body>
+</html>
