@@ -9,12 +9,29 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom right, #74ebd5, #9face6);
+            background: linear-gradient(to bottom right, #000000, #aaaaaa);
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            cursor: none;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+            opacity: 1;
+            transition: opacity 1s ease;
         }
 
         .navbar {
@@ -34,29 +51,80 @@
             text-align: center;
             padding: 14px 20px;
             text-decoration: none;
+            cursor: none;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            background: transparent;
+            pointer-events: none;
+            z-index: 1002;
+        }
+
+        .cross {
+            position: center;
+            width: 20px;
+            height: 20px;
+        }
+
+        .cross::before,
+        .cross::after {
+            content: '';
+            position: absolute;
+            background-color: gray;
+        }
+
+        .cross::before {
+            width: 2px;
+            height: 20px;
+            left: 9px;
+        }
+
+        .cross::after {
+            height: 2px;
+            width: 20px;
+            top: 9px;
         }
 
         .navbar .login-button {
             float: right;
+            color: #FFFFFF;
             background-color: #4CAF50;
+            background: linear-gradient(to bottom right, #757575, #cccccc);
+            margin-top: 6px;
+            margin-right: 5px;
+            font-size: 16px;
+            line-height: 2;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
+            cursor: none;
         }
 
-        .navbar .login-button a {
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
+        .login-button:not([disabled]):focus {
+            box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(27, 27, 27, 0.5), .125rem .125rem 1rem rgba(226, 226, 226, 0.719);
+        }
+
+        .login-button:not([disabled]):hover {
+            box-shadow: 0 0 .25rem rgba(255, 255, 255, 0.432), -.125rem -.125rem 1rem rgba(114, 114, 114, 0.226), .125rem .125rem 1rem rgba(29, 29, 29, 0.432);
         }
 
         h1 {
-            text-align: center;
-            margin-top: 70px;
+            font-size: 60px;
             color: white;
+            margin: 0;
+            opacity: 1;
+            transition: opacity 2s ease;
         }
 
-        /* Стиль для модального окна */
+        .content {
+            display: none;
+            color: white;
+            text-align: center;
+            margin-top: 100px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -66,18 +134,62 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px); /* Добавлен эффект размытия для подложки */
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.9); /* Легкая прозрачность */
+            background: transparent;
             backdrop-filter: blur(10px);
             margin: 15% auto;
             padding: 20px;
             border-radius: 10px;
-            width: 80%;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Добавлена тень для лучшего визуального эффекта */
+            width: 20%;
+            height: 40%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.5);
+            outline: none;
+            cursor: none;
+        }
+
+        .modal-content input:focus {
+            border-color: #5e5d5d;
+            box-shadow: 0 0 10px rgba(160, 160, 160, 0.5);
+        }
+
+        .modal-content input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .modal-content input:focus::placeholder {
+            color: transparent;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #575757;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: none;
+        }
+
+        .modal-content button:hover {
+            background-color: #6d6d6d;
+            box-shadow: 0 0 10px rgba(143, 143, 143, 0.5);
         }
 
         .close {
@@ -89,23 +201,35 @@
 
         .close:hover,
         .close:focus {
-            color: black;
             text-decoration: none;
-            cursor: pointer;
+            cursor: none;
         }
     </style>
 </head>
 <body>
+    <div class="custom-cursor cross"></div>
+    
+    <div class="overlay" id="overlay">
+        <h1>Night.Win</h1>
+    </div>
+
     <div class="navbar">
-        <a href="#home">Главная</a>
-        <a href="#about">О нас</a>
-        <a href="#contact">Контакты</a>
+        <a href="#" onclick="showContent('home')">Главная</a>
+        <a href="#" onclick="showContent('about')">О нас</a>
+        <a href="#" onclick="showContent('contact')">Контакты</a>
         <button class="login-button" id="loginBtn">Войти</button>
     </div>
-    
-    <h1>Добро пожаловать на сайт!</h1>
 
-    <!-- Модальное окно -->
+    <div id="home" class="content" style="display: block;">
+        <p>Добро пожаловать на главную страницу!</p>
+    </div>
+    <div id="about" class="content">
+        <p>Это секция "О нас". Здесь вы узнаете информацию о нас.</p>
+    </div>
+    <div id="contact" class="content">
+        <p>Это секция "Контакты". Свяжитесь с нами по следующим каналам.</p>
+    </div>
+
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
@@ -118,7 +242,13 @@
     </div>
 
     <script>
-        // Открыть модальное окно
+        function showContent(section) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => content.style.display = 'none');
+
+            document.getElementById(section).style.display = 'block';
+        }
+
         const modal = document.getElementById('loginModal');
         const loginBtn = document.getElementById('loginBtn');
         const closeModal = document.getElementById('closeModal');
@@ -127,18 +257,16 @@
             modal.style.display = "block";
         }
 
-        // Закрыть модальное окно
         closeModal.onclick = function() {
             modal.style.display = "none";
         }
 
         window.onclick = function(event) {
-            if (event.target == modal) {
+            if (event.target === modal) {
                 modal.style.display = "none";
             }
         }
 
-        // Функция авторизации
         document.getElementById('submitLogin').onclick = function() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -164,9 +292,26 @@
                 });
         }
 
-        // Функция XOR для расшифровки
-        function xorDecrypt(data, key) {
-            return data.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ key)).join('');
+        function gjkagjkaslgsg(gjaskgjkalsgj, gasjgkasjgk) {
+            return gjaskgjkalsgj.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ gasjgkasjgk)).join('');
+        }
+
+        const cursor = document.querySelector('.custom-cursor');
+    
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = `${e.pageX}px`;
+            cursor.style.top = `${e.pageY}px`;
+        });
+
+        window.onload = function() {
+            const overlay = document.getElementById('overlay');
+            setTimeout(() => {
+                overlay.style.opacity = "0";
+                document.querySelector('h1').style.opacity = "0";
+            }, 2000);
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 3000);
         }
     </script>
 </body>
