@@ -25,7 +25,6 @@
                 .then(response => response.text()) // Получаем текстовые данные
                 .then(encryptedData => {
                     const decryptedData = xorDecrypt(encryptedData, 57); // Дешифруем данные
-                    console.log(decryptedData); // Проверка расшифрованных данных
                     const data = JSON.parse(decryptedData); // Парсим JSON
 
                     const user = data.users.find(u => u.username === username && u.password === password);
