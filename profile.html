@@ -53,17 +53,59 @@
             top: 9px;
         }
 
+        .menu-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            cursor: none;
+        }
+
+        .menu-icon div {
+            width: 100%;
+            height: 3px;
+            background: gray;
+            margin: 3px 0;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 10px;
+            background: transparent;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #575757;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        .dropdown button:hover {
+            background-color: #6d6d6d;
+        }
+
         .modal-content {
             background: transparent;
             backdrop-filter: blur(10px);
-            margin: 15% auto;
             padding: 20px;
             border-radius: 10px;
             width: 20%;
             height: 40%;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(5px);
-            cursor: none;
             color: white;
         }
 
@@ -103,8 +145,8 @@
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            cursor: none;
             margin: 5px 0;
+            cursor: none;
         }
 
         .modal-content button:hover {
@@ -119,28 +161,26 @@
 
     <div class="modal-content">
         <h1>Ваш профиль</h1>
-        Username: <p id="username-display"></p>
-        <button id="download-button" onclick="downloadFile()">Скачать файл</button>
+        <p id="username-display"></p>
+        <div class="menu-icon" onclick="toggleDropdown()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="dropdown" id="dropdown">
+            <button onclick="downloadFile('under')">Скачать Underical</button>
+        </div>
+        <button onclick="downloadFile('loader-new')">Скачать файл</button>
         <button onclick="logout()">Выйти</button>
     </div>
 
     <script>
-        function checkSession() {
-            const cookies = document.cookie.split('; ').reduce((prev, current) => {
-                const [name, ...rest] = current.split('=');
-                prev[name] = rest.join('=');
-                return prev;
-            }, {});
-
-            if (!cookies.session) {
-                //window.location.href = 'login.html';
-            } else {
-                const [username] = atob(cookies.session).split(':');
-                document.getElementById('username-display').innerText = `Добро пожаловать, ${username}`;
-            }
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
-        async function downloadFile() {
+        async function downloadFile(fileNumber) {
             const cookies = document.cookie.split('; ').reduce((prev, current) => {
                 const [name, ...rest] = current.split('=');
                 prev[name] = rest.join('=');
@@ -153,9 +193,15 @@
                 return;
             }
 
-            const fileType = 'application/pdf';
+            const fileMap = {
+                'loader-new': 'loader.exe',
+                'under': 'patch-under.exe'
+            };
+
+            const fileName = fileMap[fileNumber];
+            const fileType = 'application/exe';
             try {
-                const response = await fetch('TOS.bin', {
+                const response = await fetch(fileName, {
                     method: 'GET',
                     headers: {
                         'Content-Type': fileType,
@@ -171,7 +217,7 @@
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'loader.exe';
+                a.download = fileName;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
@@ -186,7 +232,24 @@
             window.location.href = 'login.html';
         }
 
-        checkSession();
+        function checkSession() {
+            const cookies = document.cookie.split('; ').reduce((prev, current) => {
+                const [name, ...rest] = current.split('=');
+                prev[name] = rest.join('=');
+                return prev;
+            }, {});
+
+            if (!cookies.session) {
+                window.location.href = 'login.html';
+            } else {
+                const [username] = atob(cookies.session).split(':');
+                document.getElementById('username-display').innerText = `Добро пожаловать, ${username}`;
+            }
+        }
+
+        window.onload = function () {
+            checkSession();
+        }
 
         const cursor = document.querySelector('.custom-cursor');
     
@@ -194,17 +257,6 @@
             cursor.style.left = `${e.pageX}px`;
             cursor.style.top = `${e.pageY}px`;
         });
-
-        window.onload = function() {
-            const overlay = document.getElementById('overlay');
-            setTimeout(() => {
-                overlay.style.opacity = "0";
-                document.querySelector('h1').style.opacity = "0";
-            }, 2000);
-            setTimeout(() => {
-                overlay.style.display = "none";
-            }, 3000);
-        }
     </script>
 </body>
 </html>
