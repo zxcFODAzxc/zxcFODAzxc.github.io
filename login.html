@@ -22,7 +22,7 @@
             const password = document.getElementById('password').value;
             const key = 'xfos';  // Используйте тот же ключ, что и при шифровании
 
-            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users_encrypted.json')
+            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
                 .then(response => response.arrayBuffer())
                 .then(buffer => {
                     const encryptedBytes = new Uint8Array(buffer);
