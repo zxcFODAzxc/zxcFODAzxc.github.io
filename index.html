@@ -258,12 +258,6 @@
             background: linear-gradient(to left, #222222, #333333, #888888, #333333, #222222);
             margin: 20px 0;
         }
-        .username {
-            float: right;
-            color: #FFFFFF;
-            padding: 14px 20px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -278,8 +272,7 @@
         <a href="#" onclick="showContent('products')">Продукты</a>
         <a href="#" onclick="showContent('about')">О нас</a>
         <a href="#" onclick="showContent('contact')">Контакты</a>
-        <button class="login-button" id="loginBtn" style="display: none;">Войти</button>
-        <span id="usernameDisplay" class="username" style="display: none;" onclick="redirectToProfile()"></span>
+        <span id="user-info"></span>
     </div>
 
     <div id="home" class="content" style="display: block;">
@@ -340,6 +333,7 @@
         function showContent(section) {
             const contents = document.querySelectorAll('.content');
             contents.forEach(content => content.style.display = 'none');
+
             document.getElementById(section).style.display = 'block';
         }
 
@@ -370,11 +364,12 @@
                 .then(encryptedData => {
                     const decryptedData = gjkagjkaslgsg(encryptedData, 57);
                     const data = JSON.parse(decryptedData);
+
                     const user = data.users.find(u => u.username === username && u.password === password);
                     if (user) {
                         const token = btoa(username + ':' + new Date().getTime());
                         document.cookie = `session=${token}; max-age=86400`;
-                        updateLoginDisplay(username);
+                        updateUserInfo();
                         modal.style.display = "none";
                     } else {
                         document.getElementById('error').innerText = 'Неверный логин или пароль.';
@@ -386,31 +381,27 @@
                 });
         }
 
-        function updateLoginDisplay(username) {
-            loginBtn.style.display = 'none';
-            document.getElementById('usernameDisplay').innerText = username;
-            document.getElementById('usernameDisplay').style.display = 'block';
+        function gjkagjkaslgsg(gjaskgjkalsgj, gasjgkasjgk) {
+            return gjaskgjkalsgj.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ gasjgkasjgk)).join('');
         }
 
-        function redirectToProfile() {
-            window.location.href = 'profile.html';
-        }
-
-        function checkSession() {
+        function updateUserInfo() {
             const cookies = document.cookie.split('; ').reduce((prev, current) => {
                 const [name, ...rest] = current.split('=');
                 prev[name] = rest.join('=');
                 return prev;
             }, {});
 
+            const userInfoElem = document.getElementById('user-info');
             if (cookies.session) {
                 const [username] = atob(cookies.session).split(':');
-                updateLoginDisplay(username);
+                userInfoElem.innerHTML = `<a href="profile.html">${username}</a>`;
+            } else {
+                userInfoElem.innerHTML = `<button class="login-button" id="loginBtn">Войти</button>`;
             }
         }
 
         window.onload = function() {
-            checkSession();
             const overlay = document.getElementById('overlay');
             setTimeout(() => {
                 overlay.style.opacity = "0";
@@ -419,29 +410,15 @@
             setTimeout(() => {
                 overlay.style.display = "none";
             }, 3000);
+            updateUserInfo();
         }
-
-        function gjkagjkaslgsg(gjaskgjkalsgj, gasjgkasjgk) {
-            return gjaskgjkalsgj.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ gasjgkasjgk)).join('');
-        }
-
+        
         const cursor = document.querySelector('.custom-cursor');
-    
+
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = `${e.pageX}px`;
             cursor.style.top = `${e.pageY}px`;
         });
-
-        window.onload = function() {
-            const overlay = document.getElementById('overlay');
-            setTimeout(() => {
-                overlay.style.opacity = "0";
-                document.querySelector('h1').style.opacity = "0";
-            }, 2000);
-            setTimeout(() => {
-                overlay.style.display = "none";
-            }, 3000);
-        }
     </script>
 </body>
 </html>
