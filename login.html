@@ -13,14 +13,24 @@
     <p id="error" style="color:red;"></p>
 
     <script>
+        function xorDecrypt(data, key) {
+            return data.map((byte, index) => byte ^ key.charCodeAt(index % key.length));
+        }
+
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const key = 'xfos';  // Используйте тот же ключ, что и при шифровании
 
-            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
-                .then(response => response.json())
-                .then(data => {
-                    const user = data.users.find(u => u.username === username && u.password === password);
+            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users_encrypted.json')
+                .then(response => response.arrayBuffer())
+                .then(buffer => {
+                    const encryptedBytes = new Uint8Array(buffer);
+                    const decryptedBytes = xorDecrypt(encryptedBytes, key);
+                    const decoder = new TextDecoder("utf-8");
+                    const decryptedData = JSON.parse(decoder.decode(decryptedBytes));
+
+                    const user = decryptedData.users.find(u => u.username === username && u.password === password);
                     if (user) {
                         const token = btoa(username + ':' + new Date().getTime()); // простой токен
                         document.cookie = `session=${token}; max-age=86400`; // действителен 1 день
