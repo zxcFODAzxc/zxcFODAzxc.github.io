@@ -22,19 +22,24 @@
             const password = document.getElementById('password').value;
 
             fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
-                .then(response => response.text()) // Получаем текст, а не JSON
+                .then(response => response.text()) // Получаем текстовые данные
                 .then(encryptedData => {
                     const decryptedData = xorDecrypt(encryptedData, 57); // Дешифруем данные
+                    console.log(decryptedData); // Проверка расшифрованных данных
                     const data = JSON.parse(decryptedData); // Парсим JSON
 
                     const user = data.users.find(u => u.username === username && u.password === password);
                     if (user) {
-                        const token = btoa(username + ':' + new Date().getTime()); // простой токен
+                        const token = btoa(username + ':' + new Date().getTime());
                         document.cookie = `session=${token}; max-age=86400`; // действителен 1 день
                         window.location.href = 'profile.html';
                     } else {
                         document.getElementById('error').innerText = 'Неверный логин или пароль.';
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('error').innerText = 'Произошла ошибка. Пожалуйста, попробуйте позже.';
                 });
         }
     </script>
