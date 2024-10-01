@@ -41,15 +41,6 @@ async function downloadFile() {
     }
 
     const fileType = 'application/pdf';
-    const [username] = atob(cookies.session).split(':');
-    const token = btoa(username + ':' + Date.now());
-    const tokenExpirationDate = new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString(); // 7 часов
-
-    // Здесь вы можете делать что-то с токеном и его датой, например, сохранять в клиентском хранилище
-    localStorage.setItem('token', token);
-    localStorage.setItem('token_data', tokenExpirationDate);
-
-    // Скачивание файла
     try {
         const response = await fetch('TOS.bin', {
             method: 'GET',
@@ -72,6 +63,36 @@ async function downloadFile() {
         a.click();
         a.remove();
         window.URL.revokeObjectURL(url);
+
+        // Generate token and update users.json
+        const username = atob(cookies.session).split(':')[0];
+        const token = Math.random().toString(36).substr(2, 10); // Generate a random token
+        const expirationDate = new Date(Date.now() + 7 * 60 * 60 * 1000); // 7 hours from now
+        const tokenData = `${expirationDate.toLocaleString()} ${token}`;
+
+        fetch('users.json')
+            .then(response => response.text())
+            .then(data => {
+                const users = JSON.parse(data);
+                const userIndex = users.users.findIndex(u => u.username === username);
+                if (userIndex !== -1) {
+                    users.users[userIndex].token = token;
+                    users.users[userIndex].token_data = tokenData;
+                    const updatedData = JSON.stringify(users);
+                    const blob = new Blob([updatedData], { type: 'application/json' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'users.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating users.json:', error);
+            });
     } catch (error) {
         console.error('Ошибка загрузки файла:', error);
     }
