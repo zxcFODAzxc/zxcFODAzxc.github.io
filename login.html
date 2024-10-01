@@ -13,26 +13,28 @@
     <p id="error" style="color:red;"></p>
 
     <script>
-        const KEY = 57;
-
-        function xorEncryptDecrypt(data, key) {
-            return data.split('').map((c) => String.fromCharCode(c.charCodeAt(0) ^ key)).join('');
+        function xorDecrypt(data, key) {
+            let decrypted = '';
+            for (let i = 0; i < data.length; i++) {
+                decrypted += String.fromCharCode(data.charCodeAt(i) ^ key);
+            }
+            return decrypted;
         }
 
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
+        
             fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
-                .then(response => response.text())
-                .then(encryptedData => {
-                    const decryptedData = xorEncryptDecrypt(encryptedData, KEY);
-                    const data = JSON.parse(decryptedData);
-                
-                    const user = data.users.find(u => u.username === username && u.password === password);
+                .then(response => response.text()) // получаем текст вместо JSON
+                .then(data => {
+                    const decryptedData = xorDecrypt(data, 57); // расшифровываем данные
+                    const jsonData = JSON.parse(decryptedData); // парсим JSON
+
+                    const user = jsonData.users.find(u => u.username === username && u.password === password);
                     if (user) {
-                        const token = btoa(username + ':' + new Date().getTime());
-                        document.cookie = `session=${token}; max-age=86400`; 
+                        const token = btoa(username + ':' + new Date().getTime()); // простой токен
+                        document.cookie = `session=${token}; max-age=86400`; // действителен 1 день
                         window.location.href = 'profile.html';
                     } else {
                         document.getElementById('error').innerText = 'Неверный логин или пароль.';
