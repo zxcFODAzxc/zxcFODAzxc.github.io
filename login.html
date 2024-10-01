@@ -7,14 +7,14 @@
 </head>
 <body>
     <h1>Вход</h1>
-    <input type="text" id="username" placeholder="Имя пользователя" autocomplete="off">
-    <input type="password" id="password" placeholder="Пароль" autocomplete="off">
+    <input type="text" id="username" placeholder="Имя пользователя">
+    <input type="password" id="password" placeholder="Пароль">
     <button onclick="login()">Войти</button>
     <p id="error" style="color:red;"></p>
 
     <script>
-        function gaskjgaljksgjalksg(sagjkasgjaskg, asgjkasjgjasgk) {
-            return sagjkasgjaskg.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ asgjkasjgjasgk)).join('');
+        function xorDecrypt(data, key) {
+            return data.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ key)).join('');
         }
 
         function login() {
@@ -24,7 +24,7 @@
             fetch('users.json')
                 .then(response => response.text())
                 .then(encryptedData => {
-                    const decryptedData = gaskjgaljksgjalksg(encryptedData, 57);
+                    const decryptedData = xorDecrypt(encryptedData, 57);
                     const data = JSON.parse(decryptedData);
 
                     const user = data.users.find(u => u.username === username && u.password === password);

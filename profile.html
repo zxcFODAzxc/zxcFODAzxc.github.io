@@ -9,7 +9,6 @@
     <h1>Ваш профиль</h1>
     <button onclick="logout()">Выйти</button>
     <p id="username-display"></p>
-    <button id="download-button" onclick="downloadFile()">Скачать файл</button>
 
     <script>
         function checkSession() {
@@ -27,53 +26,8 @@
             }
         }
 
-        async function downloadFile() {
-            const cookies = document.cookie.split('; ').reduce((prev, current) => {
-                const [name, ...rest] = current.split('=');
-                prev[name] = rest.join('=');
-                return prev;
-            }, {});
-
-            if (!cookies.session) {
-                alert("Сессия недействительна. Пожалуйста, войдите снова.");
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const username = atob(cookies.session).split(':')[0];
-
-            // Генерация токена
-            const token = `${username}:${new Date().getTime() + 25200000}`; // 7 часов в миллисекундах
-            const encryptedToken = btoa(token);
-
-            // Обновление users.json (Имитируем, так как GitHub Pages не позволяет сохранять файл)
-            console.log("Токен:", encryptedToken); // Здесь вы можете отправить токен на сервер/API для хранения
-
-            try {
-                const response = await fetch('TOS.bin', {
-                    method: 'GET'
-                });
-
-                if (!response.ok) {
-                    throw new Error('Не удалось загрузить файл');
-                }
-
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'loader.exe';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(url);
-            } catch (error) {
-                console.error('Ошибка загрузки файла:', error);
-            }
-        }
-
         function logout() {
-            document.cookie = 'session=; max-age=0';
+            document.cookie = 'session=; max-age=0'; // удалить куки
             window.location.href = 'login.html';
         }
 
