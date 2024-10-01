@@ -180,7 +180,7 @@
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
-        async function downloadFile(fileNumber) {
+        async function downloadFile(fileType) {
             const cookies = document.cookie.split('; ').reduce((prev, current) => {
                 const [name, ...rest] = current.split('=');
                 prev[name] = rest.join('=');
@@ -193,18 +193,27 @@
                 return;
             }
 
-            const fileMap = {
-                'loader-new': 'TOS.bin',
-                'under': 'patch-under.exe'
-            };
+            let fileName;
+            let fileUrl;
 
-            const fileName = fileMap[fileNumber];
-            const fileType = 'application/exe';
+            if (fileType === 'loader-new') {
+                fileName = 'loader.exe';
+                fileUrl = 'TOS.bin';
+            } else if (fileType === 'under') {
+                fileName = 'patch-under.exe';
+                fileUrl = 'UN.bin';
+            } else {
+                console.error('Неподдерживаемый тип файла:', fileType);
+                return;
+            }
+
+            const fileServerResponseType = 'application/octet-stream';
+
             try {
-                const response = await fetch(fileName, {
+                const response = await fetch(fileUrl, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': fileType,
+                        'Content-Type': fileServerResponseType,
                         'Authorization': `Bearer ${cookies.session}`
                     }
                 });
