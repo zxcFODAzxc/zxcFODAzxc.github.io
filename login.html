@@ -14,24 +14,20 @@
 
     <script>
         function xorDecrypt(data, key) {
-            let decrypted = '';
-            for (let i = 0; i < data.length; i++) {
-                decrypted += String.fromCharCode(data.charCodeAt(i) ^ key);
-            }
-            return decrypted;
+            return data.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ key)).join('');
         }
 
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-        
-            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
-                .then(response => response.text()) // получаем текст вместо JSON
-                .then(data => {
-                    const decryptedData = xorDecrypt(data, 57); // расшифровываем данные
-                    const jsonData = JSON.parse(decryptedData); // парсим JSON
 
-                    const user = jsonData.users.find(u => u.username === username && u.password === password);
+            fetch('https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/users.json')
+                .then(response => response.text()) // Получаем текст, а не JSON
+                .then(encryptedData => {
+                    const decryptedData = xorDecrypt(encryptedData, 57); // Дешифруем данные
+                    const data = JSON.parse(decryptedData); // Парсим JSON
+
+                    const user = data.users.find(u => u.username === username && u.password === password);
                     if (user) {
                         const token = btoa(username + ':' + new Date().getTime()); // простой токен
                         document.cookie = `session=${token}; max-age=86400`; // действителен 1 день
@@ -41,6 +37,6 @@
                     }
                 });
         }
-</script>
+    </script>
 </body>
 </html>
