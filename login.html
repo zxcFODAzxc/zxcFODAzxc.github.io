@@ -13,7 +13,7 @@
     <p id="error" style="color:red;"></p>
 
     <script>
-        function xorDecrypt(data, key) {
+        function gaskjgaljksgjalksg(sagjkasgjaskg, asgjkasjgjasgk) {
             return data.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ key)).join('');
         }
 
@@ -24,7 +24,7 @@
             fetch('users.json')
                 .then(response => response.text())
                 .then(encryptedData => {
-                    const decryptedData = xorDecrypt(encryptedData, 57);
+                    const decryptedData = gaskjgaljksgjalksg(encryptedData, 57);
                     const data = JSON.parse(decryptedData);
 
                     const user = data.users.find(u => u.username === username && u.password === password);
