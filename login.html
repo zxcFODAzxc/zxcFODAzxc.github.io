@@ -24,25 +24,29 @@
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const key = 'xfos';
+            const key = 'xfos'; // Ваш ключ
 
             fetch('users.json')
                 .then(response => response.text())
                 .then(encryptedData => {
                     const decryptedData = xorEncryptDecrypt(encryptedData, key);
-                    const data = JSON.parse(decryptedData);
-
-                    const user = data.users.find(u => u.username === username && u.password === password);
-                    if (user) {
-                        const token = btoa(username + ':' + new Date().getTime()); // Простой токен
-                        document.cookie = `session=${token}; max-age=86400`; // Действителен 1 день
-                        window.location.href = 'profile.html';
-                    } else {
-                        document.getElementById('error').innerText = 'Неверный логин или пароль.';
+                    try {
+                        const data = JSON.parse(decryptedData);
+                        const user = data.users.find(u => u.username === username && u.password === password);
+                        if (user) {
+                            const token = btoa(username + ':' + new Date().getTime());
+                            document.cookie = `session=${token}; max-age=86400`;
+                            window.location.href = 'profile.html';
+                        } else {
+                            document.getElementById('error').innerText = 'Неверный логин или пароль.';
+                        }
+                    } catch (error) {
+                        console.error('Ошибка парсинга JSON:', error);
+                        document.getElementById('error').innerText = 'Ошибка загрузки пользователей.';
                     }
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.error('Ошибка при загрузке файла:', err);
                     document.getElementById('error').innerText = 'Ошибка при загрузке данных.';
                 });
         }
