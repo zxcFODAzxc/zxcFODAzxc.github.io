@@ -9,12 +9,22 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background: linear-gradient(to bottom right, #74ebd5, #9face6); /* Градиент фона */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .navbar {
-            background-color: #333;
+            background: rgba(255, 255, 255, 0.3); /* Прозрачный фон */
+            backdrop-filter: blur(10px); /* Эффект размытия */
             overflow: hidden;
-            position: relative;
+            position: fixed; /* Зафиксировано в верхней части экрана */
+            top: 0;
+            width: 100%; /* Полная ширина */
+            z-index: 1000; /* Поверх остальных элементов */
         }
 
         .navbar a {
@@ -42,27 +52,29 @@
 
         h1 {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 70px; /* Увеличиваем отступ сверху, чтобы текст не перекрывался панелью навигации */
+            color: white; /* Цвет текста заголовка */
         }
 
         /* Стиль для модального окна */
         .modal {
             display: none; /* Скрыто по умолчанию */
             position: fixed; /* Зафиксировано по всему экрану */
-            z-index: 1; /* Поверх остальных элементов */
+            z-index: 1001; /* Поверх остальных элементов */
             left: 0;
             top: 0;
             width: 100%; /* Полная ширина */
             height: 100%; /* Полная высота */
             overflow: auto; /* Включает прокрутку, если необходимо */
-            background-color: rgba(0,0,0,0.4); /* Черный фон с прозрачностью */
+            background-color: rgba(0, 0, 0, 0.5); /* Черный фон с прозрачностью */
         }
 
         .modal-content {
-            background-color: #fefefe;
+            background: rgba(255, 255, 255, 0.9); /* Легкая прозрачность */
+            backdrop-filter: blur(10px); /* Эффект размытия */
             margin: 15% auto; /* 15% сверху и центрирование */
             padding: 20px;
-            border: 1px solid #888;
+            border-radius: 10px; /* Закругленные углы */
             width: 80%; /* Ширина */
         }
 
