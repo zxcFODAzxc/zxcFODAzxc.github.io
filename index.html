@@ -373,8 +373,6 @@
                     const decryptedData = gjkagjkaslgsg(encryptedData, 57);
                     const data = JSON.parse(decryptedData);
 
-                    console.log(decryptedData);
-
                     const user = data.users.find(u => u.username === username && u.password === password);
                     if (user) {
                         const token = btoa(username + ':' + new Date().getTime());
