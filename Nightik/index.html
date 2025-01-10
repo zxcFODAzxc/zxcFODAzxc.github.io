@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background 0.3s;
+}
+
+.navbar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.section {
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.glow-text {
+    font-size: 4rem; /* Размер текста */
+    background: linear-gradient(90deg, #ffffff, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+    margin: 20px 0;
+}
+
+.intro-text {
+    font-size: 1.5rem; /* Размер текста */
+    color: #ffffff;
+    margin: 20px 0;
+}
+
+.team-member {
+    margin: 20px 0;
+    transition: transform 0.3s;
+}
+
+.team-member:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+.services-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.service-card {
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card h3 {
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+.service-card p {
+    font-size: 14px;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1a1a1a;
+}
+
+footer p {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+</style>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#team">Команда</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav> 
+    </header>
+
+    <main>
+        <section id="about" class="section">
+            <h1><span class="glow-text">NIGHT</span></h1>
+            <h1>Добро пожаловать в команду</h1>
+            <p>Мы — команда профессионалов, специализирующихся на обслуживании ПК и других устройств.</p>
+        </section>
+
+        <section id="services" class="section">
+            <h2>Наши услуги</h2>
+            <div class="services-container">
+                <div class="service-card">
+                    <h3>Обслуживание</h3>
+                    <p>Мы предоставляем услуги по обслуживанию ваших устроиств, включая продувку, чистку от пыли и проверку системы на наличие вирусов и угроз.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Профилактика</h3>
+                    <p>Проводим профилактические мероприятия для предотвращения сбоев в работе вашего устройства и продления его срока службы.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Диагностика</h3>
+                    <p>Проводим полную диагностику системы для выявления возможных проблем и их устранения.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Консультации</h3>
+                    <p>Предоставляем профессиональные консультации по оптимизации работы вашего устроиства и выбору программного обеспечения.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="section">
+            <h2>Наша команда</h2>
+            <div class="team-member">
+                <h3>Артемий Культов</h3>
+                <p>Роль: Лидер проекта</p>
+            </div>
+            <div class="team-member">
+                <h3>Кирилл Фаталитив</h3>
+                <p>Роль: Мастер по обслуживанию</p>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Контакты</h2>
+            <!-- <p>Свяжитесь с нами по электронной почте: contact@nightteam.com</p> -->
+            <p>
+                <a href="https://t.me/nightikteam" target="_blank" style="text-decoration: none; color: inherit;">
+                    <i class="fab fa-telegram" style="font-size: 20px; vertical-align: middle;"></i> 
+                    @nightikteam
+                </a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Команда Night. Все права защищены.</p>
+    </footer>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>
