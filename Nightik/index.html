@@ -144,7 +144,7 @@ footer p {
 .grid-background {
     position: absolute;
     top: 0;
- left: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background: repeating-linear-gradient(
@@ -161,17 +161,72 @@ footer p {
         transparent 1px,
         transparent 50px
     );
-    z-index: -1; /* Чтобы сетка была под текстом */
+    z-index: -1;
 }
 
 .grid-fade {
     position: absolute;
-    bottom: 0; /* Позиционируем внизу секции */
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100px; /* Высота градиента */
+    height: 100px;
     background: linear-gradient(to top, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 0) 100%);
-    z-index: -1; /* Чтобы градиент был под текстом */
+    z-index: -1;
+}
+
+.tos-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 150px;
+}
+
+.tos-button {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    height: 40px;
+}
+
+.tos-text {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.tos-content {
+    display: inline-block;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-top: -25px;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.tos-button.expanded {
+    height: 200px; /* Button height when expanded */
+    width: 250px; /* Button width when expanded */
+    transform: translate(-90px, -10px); /* Stretch left and up */
+}
+
+.tos-button.expanded .tos-text {
+    opacity: 0;
+}
+
+.tos-button.expanded .tos-content {
+    opacity: 1; /* Show content */
+    max-height: 200px; /* Max height for animation */
+}
+
+.tos-button.expanded i {
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 </style>
@@ -201,7 +256,7 @@ footer p {
             <div class="services-container">
                 <div class="service-card">
                     <h3>Обслуживание</h3>
-                    <p>Мы предоставляем услуги по обслуживанию ваших устройств, включая продувку, чистку от пыли и проверку системы на наличие вирусов и угроз.</p>
+                    <p>Мы предоставляем услуги по обслуживанию ваших устроиств, включая продувку, чистку от пыли и проверку системы на наличие вирусов и угроз.</p>
                 </div>
                 <div class="service-card">
                     <h3>Профилактика</h3>
@@ -213,7 +268,7 @@ footer p {
                 </div>
                 <div class="service-card">
                     <h3>Консультации</h3>
-                    <p>Предоставляем профессиональные консультации по оптимизации работы вашего устройства и выбору программного обеспечения.</p>
+                    <p>Предоставляем профессиональные консультации по оптимизации работы вашего устроиства и выбору программного обеспечения.</p>
                 </div>
             </div>
         </section>
@@ -244,6 +299,13 @@ footer p {
     <footer>
         <p>&copy; 2025 Команда Night. Все права защищены.</p><!--<span class="MIT-text">MIT License</span>-->
     </footer>
+
+    <div class="tos-container" id="tosContainer">
+        <div class="tos-button" id="tosButton">
+            <span class="tos-text" id="tosText" style="margin-left: 45px">TOS</span><i class="fa-solid fa-arrow-up" style="font-size: 15px; margin-left: 40px; vertical-align: middle;"></i>
+            <span class="tos-content" id="tosContent">Настоящее лицензионное соглашение устанавливает, что компания несет ответственность за неисправности устройств, возникшие в течение первой недели после обслуживания. Если устройство выйдет из строя по истечении этого срока, компания не несет ответственности за дальнейшие поломки.</span>
+        </div>
+    </div>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </body>

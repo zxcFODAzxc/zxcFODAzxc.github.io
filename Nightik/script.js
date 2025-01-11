@@ -51,3 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tosButton = document.getElementById('tosButton');
+
+    tosButton.onclick = function() {
+        tosButton.classList.toggle('expanded');
+    }
+});
