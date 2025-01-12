@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night</title>
+</head>
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    scrollbar-width: none; /* Firefox */
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background 0.3s;
+}
+
+.navbar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.section {
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.glow-text {
+    font-size: 4rem; /* Размер текста */
+    background: linear-gradient(90deg, #ffffff, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+    margin: 20px 0;
+}
+
+.intro-text {
+    font-size: 1.5rem; /* Размер текста */
+    color: #ffffff;
+    margin: 20px 0;
+}
+
+.team-member {
+    margin: 20px 0;
+    transition: transform 0.3s;
+}
+
+.team-member:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+.services-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.service-card {
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card h3 {
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+.service-card p {
+    font-size: 14px;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1a1a1a;
+}
+
+footer p {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+::selection {
+    background-color: gray; /* selection */
+    color: white;
+}
+
+::-moz-selection {
+    background-color: gray; /* Firefox */
+    color: white;
+}
+
+.MIT-text {
+    font-size: 50%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.grid-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.1) 0,
+        rgba(255, 255, 255, 0.1) 1px,
+        transparent 1px,
+        transparent 50px
+    ),
+    repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.1) 0,
+        rgba(255, 255, 255, 0.1) 1px,
+        transparent 1px,
+        transparent 50px
+    );
+    z-index: -1;
+}
+
+.grid-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to top, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 0) 100%);
+    z-index: -1;
+}
+
+.tos-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 150px;
+}
+
+.tos-button {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    height: 40px;
+}
+
+.tos-text {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.tos-content {
+    display: inline-block;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-top: -25px;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.tos-button.expanded {
+    height: 200px; /* Button height when expanded */
+    width: 250px; /* Button width when expanded */
+    transform: translate(-90px, -10px); /* Stretch left and up */
+}
+
+.tos-button.expanded .tos-text {
+    opacity: 0;
+}
+
+.tos-button.expanded .tos-content {
+    opacity: 1; /* Show content */
+    max-height: 200px; /* Max height for animation */
+}
+
+.tos-button.expanded i {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .modal-content {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            margin: 4% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 20%;
+            height: 40%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.5);
+            outline: none;
+        }
+
+        .modal-content input:focus {
+            border-color: #5e5d5d;
+            box-shadow: 0 0 10px rgba(160, 160, 160, 0.5);
+        }
+
+        .modal-content input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .modal-content input:focus::placeholder {
+            color: transparent;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #575757;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .modal-content button:hover {
+            background-color: #6d6d6d;
+            box-shadow: 0 0 10px rgba(143, 143, 143, 0.5);
+        }
+
+.auth-title {
+    background: linear-gradient(90deg, #ffffff, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+</style>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="../index.html">О нас</a></li>
+                <li><a href="../index.html">Услуги</a></li>
+                <li><a href="../index.html">Команда</a></li>
+                <li><a href="../index.html">Контакты</a></li>
+                <li><a href="#" id="loginButton">Войти</a></li>
+            </ul>
+        </nav> 
+    </header>
+
+    <main>
+        <section id="about" class="section">
+            <div class="grid-background"></div>
+            <h1><span class="glow-text">NIGHT</span></h1>
+            <div class="container">
+                <h1 class="auth-title" id="auth-title">Authentication</h1>
+                <form id="authForm" class="modal-content">
+                    <input type="email" id="email" placeholder="Электронная почта" required>
+                    <input type="password" id="password" placeholder="Пароль" required>
+                    <button type="submit">Войти</button>
+                    <button id="registerButton">Регистрация</button>
+                </form>
+                <button id="logoutButton" style="display:none;">Выйти</button>
+
+                <div id="reviewSection" style="display:none;">
+                    <h1>Оставьте свой отзыв</h1>
+                    <form id="reviewForm">
+                        <input type="text" id="username" placeholder="Ваше имя" required>
+                        <textarea id="review" placeholder="Ваш отзыв" required></textarea>
+                        <button type="submit">Отправить</button>
+                    </form>
+                    <h2>Отзывы</h2>
+                    <div id="reviewsList"></div>
+                </div>
+            </div>
+            <div class="grid-fade"></div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Команда Night. Все права защищены.</p><!--<span class="MIT-text">MIT License</span>-->
+    </footer>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        function firebaseInit(data, key) {
+            let result = '';
+            for (let i = 0; i < data.length; i++) {
+                result += String.fromCharCode(data.charCodeAt(i) ^ key);
+            }
+            return result;
+        }
+
+        const firebaseConfig = {
+            apiKey: "v~MVdNtGRb\u000feTzEAVS\u0000suGA\u0000\u000erSFzmzSr}BQV\\",
+            authDomain: "Y^P_C@^Y\u001aVV\u000e\u000e\u0007\u0019Q^ERUVDRVGG\u0019TXZ",
+            databaseURL: "_CCGD\r\u0018\u0018Y^P_C@^Y\u001aVV\u000e\u000e\u0007\u001aSRQVB[C\u001aECSU\u0019Q^ERUVDR^X\u0019TXZ",
+            projectId: "Y^P_C@^Y\u001aVV\u000e\u000e\u0007",
+            storageBucket: "Y^P_C@^Y\u001aVV\u000e\u000e\u0007\u0019Q^ERUVDRDCXEVPR\u0019VGG",
+            messagingSenderId: "\u0006\u0007\u0000\u0000\u0007\u0001\u0005\u0001\u0002\u0006\u000f\u0001\u0003",
+            appId: "\u0006\r\u0006\u0007\u0000\u0000\u0007\u0001\u0005\u0001\u0002\u0006\u000f\u0001\u0003\r@RU\r\u0000\u0001\u0002R\u0004\u0001\u000f\u0005QV\u000e\u0003\u0001\u0002\u0004SV\u0003\u0005TVS",
+            measurementId: "p\u001a\u000ezmmn\u0003yd"
+        };
+
+        const firebaseVersion = 55;
+
+        const UpdateConfig = {};
+
+        for (const [key, value] of Object.entries(firebaseConfig)) {
+            UpdateConfig[key] = firebaseInit(value, firebaseVersion);
+        }
+
+        const app = initializeApp(UpdateConfig);
+        const auth = getAuth();
+        const db = getDatabase(app);
+
+        document.getElementById('registerButton').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Регистрация успешна!");
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    alert("Ошибка: " + errorMessage);
+                });
+        });
+
+        document.getElementById('authForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    document.getElementById('authForm').style.display = 'none';
+                    document.getElementById('auth-title').style.display = 'none';
+                    document.getElementById('reviewSection').style.display = 'block';
+                    document.getElementById('logoutButton').style.display = 'block';
+                    displayReviews();
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    alert("Ошибка: " + errorMessage);
+                });
+        });
+
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            signOut(auth).then(() => {
+                document.getElementById('authForm').style.display = 'block';
+                document.getElementById('reviewSection').style.display = 'none';
+                document.getElementById('logoutButton').style.display = 'none';
+            }).catch((error) => {
+                const errorMessage = error.message;
+                alert("Ошибка при выходе: " + errorMessage);
+            });
+        });
+
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const review = document.getElementById('review').value;
+
+            push(ref(db, 'reviews/'), {
+                username: username,
+                review: review
+            }).then(() => {
+                document.getElementById('reviewForm').reset();
+            });
+        });
+
+        function displayReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '';
+
+            onValue(ref(db, 'reviews/'), (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const reviewData = childSnapshot.val();
+                    const reviewElement = document.createElement('div');
+                    reviewElement.classList.add('review');
+                    reviewElement.innerHTML = `<strong>${reviewData.username}</strong><p>${reviewData.review}</p>`;
+                    reviewsList.appendChild(reviewElement);
+                });
+            });
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('authForm').style.display = 'none';
+                document.getElementById('auth-title').style.display = 'none';
+                document.getElementById('reviewSection').style.display = 'block';
+                document.getElementById('logoutButton').style.display = 'block';
+                displayReviews();
+            } else {
+                document.getElementById('authForm').style.display = 'block';
+                document.getElementById('reviewSection').style.display = 'none';
+                document.getElementById('logoutButton').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
