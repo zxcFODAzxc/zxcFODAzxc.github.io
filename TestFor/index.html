@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система отзывов</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Оставьте свой отзыв</h1>
+    <form id="reviewForm">
+        <input type="text" id="username" placeholder="Ваше имя" required>
+        <textarea id="review" placeholder="Ваш отзыв" required></textarea>
+        <button type="submit">Отправить</button>
+    </form>
+    <div id="reviews"></div>
+
+    <script>
+        // Инициализация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCpeU8RcMrvHad7DBpv79EdqMZMdEJufak",
+            authDomain: "nightwin-aa990.firebaseapp.com",
+            databaseURL: "https://nightwin-aa990-default-rtdb.firebaseio.com",
+            projectId: "nightwin-aa990",
+            storageBucket: "nightwin-aa990.firebasestorage.app",
+            messagingSenderId: "1077062651864",
+            appId: "1:1077062651864:web:765e3682fa94653da42cad",
+            measurementId: "G-9HMHZZY4NS"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        const db = firebase.database();
+
+        // Обработка отправки формы
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const review = document.getElementById('review').value;
+
+            // Сохранение отзыва в базе данных
+            db.ref('reviews/').push({
+                username: username,
+                review: review
+            });
+
+            // Очистка формы
+            document.getElementById('reviewForm').reset();
+        });
+
+        // Получение отзывов из базы данных
+        db.ref('reviews/').on('value', function(snapshot) {
+            const reviewsDiv = document.getElementById('reviews');
+            reviewsDiv.innerHTML = '';
+            snapshot.forEach(function(childSnapshot) {
+                const reviewData = childSnapshot.val();
+                reviewsDiv.innerHTML += `<p><strong>${reviewData.username}:</strong> ${reviewData.review}</p>`;
+            });
+        });
+    </script>
+</body>
+</html>
