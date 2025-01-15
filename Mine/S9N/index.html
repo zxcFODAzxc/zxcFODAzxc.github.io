@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S9NORU</title>
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Snell Roundhand, cursive;
+            background: radial-gradient(circle, #260526, #3d053d, #8a0e8a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+            scrollbar-width: none;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #ffffff;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 10px white;
+            animation: twinkle 1.5s infinite alternate;
+        }
+
+        .star::before, .star::after {
+            content: '';
+            position: absolute;
+            background: white;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        h1 {
+            font-size: 3em;
+            animation: fadeIn 1s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #531f7d, #6d5580);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(73, 30, 107, 0.5), 0 0 15px rgba(113, 24, 184, 0.7);
+        }
+
+        .normal-text {
+            background: linear-gradient(to right, #8c00ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: transparent;
+            border-radius: 10px;
+            box-shadow: 0 0px 20px #6e6180;
+            margin: 10px;
+            padding: 20px;
+            width: 200px;
+            transition: transform 0.2s;
+            backdrop-filter: blur(5px);
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .button {
+            background: linear-gradient(to right, #8c00ff, #420f6b);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: linear-gradient(to right, #9b23fc, #4a216b);
+            box-shadow: 0 0 2px #491e6b, 0 0 10px #4d276b;
+        }
+
+        .Own-Des {
+            position: absolute;
+            margin-top: 48%;
+            color: #585459;
+            z-index: 1;
+        }
+
+
+        .nav-bar {
+            position: absolute;
+            top: 20px;
+            left: 93%;
+        }
+
+        .nav-bar button {
+            background: linear-gradient(to right, #6c1cad, #694587);
+            border-radius: 5px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars">
+        <div class="star" style="top : 10%; left: 20%;"></div>
+        <div class="star" style="top: 30%; left: 50%;"></div>
+        <div class="star" style="top: 70%; left: 80%;"></div>
+        <div class="star" style="top: 40%; left: 10%;"></div>
+        <div class="star" style="top: 60%; left: 60%;"></div>
+        <div class="star" style="top: 20%; left: 90%;"></div>
+        <div class="star" style="top: 80%; left: 30%;"></div>
+        <div class="star" style="top: 50%; left: 40%;"></div>
+        <div class="star" style="top: 90%; left: 70%;"></div>
+        <div class="star" style="top: 15%; left: 75%;"></div>
+        <div class="star" style="top: 50%; left: 72%;"></div>
+        <div class="star" style="top: 45%; left: 46%;"></div>
+        <div class="star" style="top: 44%; left: 75%;"></div>
+        <div class="star" style="top: 42%; left: 88%;"></div>
+        <div class="star" style="top: 38%; left: 67%;"></div>
+        <div class="star" style="top: 85%; left: 10%;"></div>
+        <div class="star" style="top: 82%; left: 93%;"></div>
+        <div class="star" style="top: 44%; left: 24%;"></div>
+        <div class="star" style="top: 68%; left: 43%;"></div>
+    </div>
+
+    <div class="nav-bar"> 
+
+        <button>Login</button>
+
+    </div>
+
+    <div>
+        <h1>
+            <span class="normal-text">Добро пожаловать на </span><span class="gradient-text">S9NORU</span><span class="normal-text"> Anarchy!</span>
+        </h1>
+        <div class="card-container">
+            <div class="card">
+                <h2>Информация</h2>
+                <p>Узнайте больше о нашем сервере и его особенностях.</p>
+                <button class="button">Читать далее</button>
+            </div>
+            <div class="card">
+                <h2>Правила</h2>
+                <p>Пожалуйста, ознакомьтесь с правилами сервера.</p>
+                <button class="button">Читать далее</button>
+            </div>
+            <div class="card">
+                <h2>Контакты</h2>
+                <p>Свяжитесь с нами для получения дополнительной информации.</p>
+                <button class="button">Читать далее</button>
+            </div>
+        </div>
+    </div>
+    <span class="Own-Des">Design by Foda</span>
+
+    <script>
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Кнопка нажата!');
+            });
+        });
+    </script>
+
+</body>
+</html>
