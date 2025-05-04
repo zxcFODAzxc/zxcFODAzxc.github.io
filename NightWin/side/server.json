@@ -1,0 +1,54 @@
+{
+    "products": [
+        {
+            "name": "Counter-Strike 2",
+            "description": "Cтрашно играть без читов? Не проблема!",
+            "description_en": "Scared to play without cheats? No problem!",
+            "description_all": "Модификация для CS2, которая делает игру веселее и... немного нечестной. Но кому нужна честность, когда можно побеждать?",
+            "description_all_en": "A CS2 mod that makes the game more fun... and slightly unfair. But who needs fairness when you can dominate?",
+            "price": 350,
+            "status": "COMING",
+            "image": ""
+        },
+        {
+            "name": "Beached",
+            "description": "Обычный пляж? Не с нашим модом!",
+            "description_en": "Just a beach? Not with our mod!",
+            "description_all": "Обычная игра, но с нашим модом она превращается в нечто большее. Теперь можно делать то, о чём даже не мечтал!",
+            "description_all_en": "A simple game, but with our mod, it becomes something greater. Now you can do things you never dreamed of!",
+            "price": 0,
+            "status": "COMING",
+            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Beach.png"
+        },
+        {
+            "name": "Phasmophobia",
+            "description": "Бу бу бу бу... теперь призраки боятся тебя!",
+            "description_en": "Boo boo boo... now the ghosts are afraid of YOU!",
+            "description_all": "Зачем убегать от призраков, если можно стать их кошмаром? Наш мод даёт тебе силу, о которой даже охотники за паранормальным не смели мечтать.",
+            "description_all_en": "Why run from ghosts when you can become their nightmare? Our mod gives you powers that even paranormal investigators wouldn't dare dream of.",
+            "price": 350,
+            "status": "AVAILABLE",
+            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Phasmo.png"
+        },
+        {
+            "name": "Hearts of Iron IV",
+            "description": "Ломай правила войны. Создай свою историю.",
+            "description_en": "Break the rules of war. Write your own history.",
+            "description_all": "Стандартная стратегия — это скучно. Наш мод ломает правила, добавляя новые механики, которые перевернут твоё представление о войне.",
+            "description_all_en": "Vanilla strategy is boring. Our mod breaks the rules, adding new mechanics that will change your view of warfare.",
+            "price": 0,
+            "status": "AVAILABLE",
+            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/HOI4.png"
+        },
+        {
+            "name": "Gamesense",
+            "description": "Gamesense фикс",
+            "description_en": "Gamesense a fix",
+            "description_all": "Gamesense - это исправленая версия skeet.",
+            "description_all_en": "Gamesense is a patched version of skeet.",
+            "price": 0,
+            "status": "AVAILABLE",
+            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/GS_2.png"
+        }
+    ]
+}
