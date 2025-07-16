@@ -63,7 +63,7 @@
         // Fetch trade data from GitHub raw URL
         async function fetchTrade() {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/zxcFODAzxc/pixl/refs/heads/main/trades.json?token=GHSAT0AAAAAADGYFCI7JW4QGHNZXD6UBEMG2DXNMHA');
+                const response = await fetch('https://raw.githubusercontent.com/zxcFODAzxc/pixl/refs/heads/main/trades.json?token=GHSAT0AAAAAADGYFCI75BBFBC4I6AECTXXA2DXOY4Q');
                 if (!response.ok) throw new Error('Failed to fetch trades');
                 const trades = await response.json();
                 return trades[tradeId];
