@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Gift Trade Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .trade-details {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0088cc;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #006d9e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NFT Gift Trade</h1>
+        <div id="trade-details" class="trade-details">
+            <p>Loading trade...</p>
+        </div>
+        <button id="confirm-btn" style="display: none;">Confirm Trade</button>
+    </div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+
+        // Get trade ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const tradeId = urlParams.get('trade');
+
+        // Fetch trade data from GitHub raw URL
+        async function fetchTrade() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/zxcFODAzxc/pixl/main/trades.json');
+                if (!response.ok) throw new Error('Failed to fetch trades');
+                const trades = await response.json();
+                return trades[tradeId];
+            } catch (error) {
+                console.error('Error fetching trade:', error);
+                return null;
+            }
+        }
+
+        // Display trade details
+        async function displayTrade() {
+            const detailsDiv = document.getElementById('trade-details');
+            const trade = await fetchTrade();
+            if (!trade) {
+                detailsDiv.innerHTML = '<p>Invalid trade or error loading data.</p>';
+                return;
+            }
+            detailsDiv.innerHTML = `
+                <p><strong>Trade ID:</strong> ${tradeId}</p>
+                <p><strong>Status:</strong> ${trade.status}</p>
+                <p><strong>User A:</strong> ${trade.user_a_id} (Gift: ${trade.user_a_gift_id})</p>
+                <p><strong>User B:</strong> ${trade.user_b_id || 'Not joined'} (Gift: ${trade.user_b_gift_id || 'None'})</p>
+                <p><strong>User A Confirmed:</strong> ${trade.user_a_confirmed}</p>
+                <p><strong>User B Confirmed:</strong> ${trade.user_b_confirmed}</p>
+            `;
+            if (trade.status === 'awaiting_confirmation' && tg.initDataUnsafe.user.id in [trade.user_a_id, trade.user_b_id]) {
+                document.getElementById('confirm-btn').style.display = 'block';
+            }
+        }
+
+        // Handle confirm button click
+        document.getElementById('confirm-btn').addEventListener('click', () => {
+            tg.sendData(JSON.stringify({ action: 'confirm', trade_id: tradeId }));
+            tg.close();
+        });
+
+        // Initialize
+        displayTrade();
+    </script>
+</body>
+</html>
