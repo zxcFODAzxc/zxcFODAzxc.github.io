@@ -89,7 +89,9 @@
                 <p><strong>User A Confirmed:</strong> ${trade.user_a_confirmed}</p>
                 <p><strong>User B Confirmed:</strong> ${trade.user_b_confirmed}</p>
             `;
-            if (trade.status === 'awaiting_confirmation' && tg.initDataUnsafe.user.id.toString() === trade.user_a_id.toString() || tg.initDataUnsafe.user.id.toString() === trade.user_b_id.toString()) {
+            if (trade.status === 'awaiting_confirmation' && 
+                (tg.initDataUnsafe.user.id.toString() === trade.user_a_id.toString() || 
+                 tg.initDataUnsafe.user.id.toString() === trade.user_b_id.toString())) {
                 document.getElementById('confirm-btn').style.display = 'block';
             }
         }
