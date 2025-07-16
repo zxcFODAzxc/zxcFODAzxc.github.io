@@ -63,7 +63,7 @@
         // Fetch trade data from GitHub raw URL
         async function fetchTrade() {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/zxcFODAzxc/pixl/main/trades.json');
+                const response = await fetch('https://raw.githubusercontent.com/zxcFODAzxc/pixl/refs/heads/main/trades.json?token=GHSAT0AAAAAADGYFCI7JW4QGHNZXD6UBEMG2DXNMHA');
                 if (!response.ok) throw new Error('Failed to fetch trades');
                 const trades = await response.json();
                 return trades[tradeId];
@@ -89,7 +89,7 @@
                 <p><strong>User A Confirmed:</strong> ${trade.user_a_confirmed}</p>
                 <p><strong>User B Confirmed:</strong> ${trade.user_b_confirmed}</p>
             `;
-            if (trade.status === 'awaiting_confirmation' && tg.initDataUnsafe.user.id in [trade.user_a_id, trade.user_b_id]) {
+            if (trade.status === 'awaiting_confirmation' && tg.initDataUnsafe.user.id.toString() === trade.user_a_id.toString() || tg.initDataUnsafe.user.id.toString() === trade.user_b_id.toString()) {
                 document.getElementById('confirm-btn').style.display = 'block';
             }
         }
