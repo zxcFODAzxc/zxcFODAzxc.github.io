@@ -10,26 +10,16 @@
             "status": "COMING",
             "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/CS2.png"
         },
-        {
-            "name": "Beached",
-            "description": "Обычный пляж? Не с нашим модом!",
-            "description_en": "Just a beach? Not with our mod!",
-            "description_all": "Обычная игра, но с нашим модом она превращается в нечто большее. Теперь можно делать то, о чём даже не мечтал!",
-            "description_all_en": "A simple game, but with our mod, it becomes something greater. Now you can do things you never dreamed of!",
-            "price": 0,
-            "status": "COMING",
-            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Beach.png"
-        },
-        {
-            "name": "Phasmophobia",
-            "description": "Бу бу бу бу... теперь призраки боятся тебя!",
-            "description_en": "Boo boo boo... now the ghosts are afraid of YOU!",
-            "description_all": "Зачем убегать от призраков, если можно стать их кошмаром? Наш мод даёт тебе силу, о которой даже охотники за паранормальным не смели мечтать.",
-            "description_all_en": "Why run from ghosts when you can become their nightmare? Our mod gives you powers that even paranormal investigators wouldn't dare dream of.",
-            "price": 350,
-            "status": "AVAILABLE",
-            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Phasmo.png"
-        },
+	{
+	    "name": "Beasts Of Bermuda",
+	    "description": "Выживание динозавров? Слишком честно. Стань Богом острова!",
+	    "description_en": "Dino survival? Too fair. Become the God of the Island!",
+	    "description_all": "Забудьте о простом выживании и прокачке. Наш мод превращает вас в непоборимую силу природы. Вы не просто динозавр — вы хозяин всего архипелага, способный менять погоду, игнорировать голод и наводить ужас на всех остальных обитателей. Зачем эволюционировать, когда можно доминировать с самого начала?",
+            "description_all_en": "Forget about simple survival and growth. Our mod turns you into an unstoppable force of nature. You're not just a dinosaur — you are the master of the entire archipelago, able to change the weather, ignore hunger, and strike terror into all other inhabitants. Why evolve when you can dominate from the very start?",
+	    "price": "2000",
+	    "status": "AVAILABLE",
+	    "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Bermudka.png"
+	},
         {
             "name": "Hearts of Iron IV",
             "description": "Ломай правила войны. Создай свою историю.",
@@ -49,6 +39,26 @@
             "price": 0,
             "status": "AVAILABLE",
             "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/GS_2.png"
+        },
+        {
+            "name": "Beached",
+            "description": "Обычный пляж? Не с нашим модом!",
+            "description_en": "Just a beach? Not with our mod!",
+            "description_all": "Обычная игра, но с нашим модом она превращается в нечто большее. Теперь можно делать то, о чём даже не мечтал!",
+            "description_all_en": "A simple game, but with our mod, it becomes something greater. Now you can do things you never dreamed of!",
+            "price": 0,
+            "status": "UNAVAILABLE",
+            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Beach.png"
+        },
+        {
+            "name": "Phasmophobia",
+            "description": "Бу бу бу бу... теперь призраки боятся тебя!",
+            "description_en": "Boo boo boo... now the ghosts are afraid of YOU!",
+            "description_all": "Зачем убегать от призраков, если можно стать их кошмаром? Наш мод даёт тебе силу, о которой даже охотники за паранормальным не смели мечтать.",
+            "description_all_en": "Why run from ghosts when you can become their nightmare? Our mod gives you powers that even paranormal investigators wouldn't dare dream of.",
+            "price": 350,
+            "status": "UNAVAILABLE",
+            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Phasmo.png"
         }
     ]
 }
