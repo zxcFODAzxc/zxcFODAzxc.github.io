@@ -38,6 +38,16 @@
             "description_all_en": "Gamesense is a patched version of skeet.",
             "price": 0,
             "status": "AVAILABLE",
+            "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/Elyska.png"
+        },
+		{
+            "name": "Standoff 2",
+            "description": "Элюзкаа премка",
+            "description_en": "Elyska premka",
+            "description_all": "Elyska - это взломаная версия Elysium.",
+            "description_all_en": "Elyska is a cracked version of Elysium.",
+            "price": 0,
+            "status": "AVAILABLE",
             "image": "https://raw.githubusercontent.com/zxcFODAzxc/zxcFODAzxc.github.io/refs/heads/main/NightWin/img/GS_2.png"
         },
         {
